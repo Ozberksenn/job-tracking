@@ -4,6 +4,8 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Navbar from "@/components/Navbar";
 import AppSidebar from "@/components/AppSidebar";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,10 +28,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressContentEditableWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
         <SidebarProvider defaultOpen={true}>
           <AppSidebar />
           <main className="w-full">
@@ -37,6 +45,7 @@ export default function RootLayout({
               <div className="px-4">{children}</div>
           </main>
         </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

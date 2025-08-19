@@ -1,16 +1,10 @@
 'use client'
-
 import { Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { SidebarTrigger } from "./ui/sidebar";
-import { MenuType } from "@/layout/menu";
 import { usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input"
-
-type Props = {
-    menu: MenuType
-}
 
 const Navbar = () => {
     const path = usePathname();
@@ -49,6 +43,5 @@ const Navbar = () => {
     </nav>
     )
 }
-
 
 export default Navbar;

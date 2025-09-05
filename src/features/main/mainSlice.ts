@@ -1,16 +1,16 @@
 "use client";
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
 
-interface UserState {
+interface MainState {
     menu : string
 }
 
-const initialState: UserState = {
+const initialState: MainState = {
     menu : "Dashboard"
 }
 
-const userSlice = createSlice({
-    name  : "user",
+const mainSlice = createSlice({
+    name  : "main",
     initialState,
     reducers : {
         selectMenu : (state,action:PayloadAction<string>) => {
@@ -20,5 +20,5 @@ const userSlice = createSlice({
 })
 
 
-export const {selectMenu} = userSlice.actions
-export default userSlice.reducer;
+export const {selectMenu} = mainSlice.actions
+export default mainSlice.reducer;

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { useAppSelector } from "@/hooks/use-redux";
 
 const Navbar = () => {
-    const menu = useAppSelector((state) => state.users.selectedMenu)
+    const menu = useAppSelector((state) => state.main.menu)
     return (
        <nav className="p-4 flex items-center justify-between">
         <div className="flex flex-row items-center">

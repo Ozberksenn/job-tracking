@@ -1,3 +1,4 @@
+"use client";
 import {
   User,
   BookA,
@@ -10,8 +11,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { menu,MenuType } from '../layout/menu';
+import { useAppDispatch } from "@/hooks/use-redux";
+import { selectMenu } from "@/features/main/mainSlice";
 
 const AppSidebar = () => {
+    const dispatch = useAppDispatch()
+
+    const handleItem = (title : string) => {
+        dispatch(selectMenu(title))
+    }
+
+
     return (
         <Sidebar collapsible="icon" >
             <SidebarHeader>
@@ -33,15 +43,12 @@ const AppSidebar = () => {
                     <SidebarMenu>
                     {menu.map((item : MenuType) => (
                         <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild>
-                            <Link href={item.url}>
-                            <item.icon />
-                            <span>{item.title}</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        {item.title === "Inbox" && (
-                            <SidebarMenuBadge>24</SidebarMenuBadge>
-                        )}
+                            <SidebarMenuButton onClick={() => handleItem(item.title)} asChild >
+                                <Link href={item.url}>
+                                <item.icon />
+                                 <span>{item.title}</span>
+                                </Link>
+                            </SidebarMenuButton  >
                         </SidebarMenuItem>
                     ))}
                     </SidebarMenu>

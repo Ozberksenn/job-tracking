@@ -3,18 +3,16 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { SidebarTrigger } from "./ui/sidebar";
-import { usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input"
+import { useAppSelector } from "@/hooks/use-redux";
 
 const Navbar = () => {
-    const path = usePathname();
-    // todo : enese sor
-    const pathName = path.split('/').join('').toUpperCase()
+    const menu = useAppSelector((state) => state.users.selectedMenu)
     return (
        <nav className="p-4 flex items-center justify-between">
         <div className="flex flex-row items-center">
          <SidebarTrigger />
-         <h3 className="pl-4">{pathName === "" ? "Home"  : pathName}</h3>
+         <h3 className="pl-4">{menu}</h3>
         </div>
         <div className="flex items-center gap-4">
             <Input type="text" placeholder="search" />

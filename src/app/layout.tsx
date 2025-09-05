@@ -5,6 +5,9 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import Navbar from "@/components/Navbar";
 import AppSidebar from "@/components/AppSidebar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Provider } from "react-redux";
+import {store} from "../store/store";
+import ReduxProvider from "@/components/providers/ReduxProvider";
 
 
 const geistSans = Geist({
@@ -32,20 +35,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-        <SidebarProvider defaultOpen={true}>
-          <AppSidebar />
-          <main className="w-full">
-              <Navbar />
-              <div className="px-4">{children}</div>
-          </main>
-        </SidebarProvider>
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+          <SidebarProvider defaultOpen={true}>
+            <AppSidebar />
+            <main className="w-full">
+                <Navbar />
+                <div className="px-4">{children}</div>
+            </main>
+          </SidebarProvider>
+          </ThemeProvider>
+          </ReduxProvider>
       </body>
     </html>
   );

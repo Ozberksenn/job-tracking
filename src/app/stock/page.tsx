@@ -21,20 +21,17 @@ const JobsPage = async () => {
     <Tabs defaultValue="job" className="container mx-auto py-3">
       <div className="flex flex-row justify-between pb-3">
         <TabsList>
-          <TabsTrigger value="job">Senin İşlerin</TabsTrigger>
-          <TabsTrigger value="all-job">Tüm İşler</TabsTrigger>
-          <TabsTrigger value="department-job">
-            Departman Bazlı işler
-          </TabsTrigger>
+          <TabsTrigger value="1">Yemekler</TabsTrigger>
+          <TabsTrigger value="2">İçecekler</TabsTrigger>
+          <TabsTrigger value="3">Tatlılar</TabsTrigger>
         </TabsList>
         <Button variant="default">Oluştur</Button>
       </div>
-      <TabsContent value="job">
-        {" "}
+      <TabsContent value="1">
         <DataTable columns={columns} data={data} />
       </TabsContent>
-      <TabsContent value="all-job"> </TabsContent>
-      <TabsContent value="department-job"></TabsContent>
+      <TabsContent value="2"> </TabsContent>
+      <TabsContent value="3"></TabsContent>
     </Tabs>
   );
 };

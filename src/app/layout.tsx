@@ -34,22 +34,22 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <ThemeProvider
+          {/* <ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem
             disableTransitionOnChange
-          >
-            <QueryProvider>
-              <SidebarProvider defaultOpen={true}>
-                <AppSidebar />
-                <main className="w-full">
-                  <Navbar />
-                  <div className="px-4">{children}</div>
-                </main>
-              </SidebarProvider>
-            </QueryProvider>
-          </ThemeProvider>
+          > */}
+          <QueryProvider>
+            <SidebarProvider defaultOpen={true}>
+              <AppSidebar />
+              <main className="w-full">
+                <Navbar />
+                <div className="px-4">{children}</div>
+              </main>
+            </SidebarProvider>
+          </QueryProvider>
+          {/* </ThemeProvider> */}
         </ReduxProvider>
       </body>
     </html>

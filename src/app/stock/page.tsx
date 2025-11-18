@@ -1,7 +1,10 @@
+"use client";
+
 import { DataTable } from "./data-table";
 import { columns, Payment } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAllMenu } from "@/api/stock/queries";
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
@@ -15,8 +18,14 @@ async function getData(): Promise<Payment[]> {
   ];
 }
 
-const JobsPage = async () => {
-  const data = await getData();
+const StockPage = async () => {
+  const { data, isLoading, isError } = useAllMenu();
+
+  console.log(data);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  // const data = await getData();
   return (
     <Tabs defaultValue="job" className="container mx-auto py-3">
       <div className="flex flex-row justify-between pb-3">
@@ -36,4 +45,4 @@ const JobsPage = async () => {
   );
 };
 
-export default JobsPage;
+export default StockPage;

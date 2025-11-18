@@ -13,3 +13,19 @@ api.interceptors.response.use(
     throw err;
   }
 );
+
+export const apiGet = async (url:string) => {
+  const response = await api.get(url);
+  return response.data;
+}
+
+export const apiPost = async (url:string,parameters:any) => {
+  const response = await api.post(url, parameters);
+  return response.data;
+}
+
+
+export const apiPut = async (url:string,parameters:any) => {
+  const response = await api.put(url, parameters);
+  return response.data;
+}

@@ -54,7 +54,6 @@ const AppSidebar = () => {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Etka job Tracking</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menu.map((item: MenuType) => (

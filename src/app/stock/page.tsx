@@ -5,43 +5,73 @@ import { columns, Payment } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAllMenu } from "@/api/stock/queries";
+import { MenuType } from "@/api/stock/types";
+import { Card } from "@/components/ui/card";
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-  ];
-}
+// async function getData(): Promise<Payment[]> {
+//   // Fetch data from your API here.
+//   return [
+//     {
+//       id: "728ed52f",
+//       amount: 100,
+//       status: "pending",
+//       email: "m@example.com",
+//     },
+//   ];
+// }
 
-const StockPage = async () => {
+const StockPage = () => {
   const { data, isLoading, isError } = useAllMenu();
 
-  console.log(data);
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  if (isError || !data) {
+    return <div>Error loading data.</div>;
+  }
   // const data = await getData();
   return (
-    <Tabs defaultValue="job" className="container mx-auto py-3">
-      <div className="flex flex-row justify-between pb-3">
-        <TabsList>
-          <TabsTrigger value="1">Yemekler</TabsTrigger>
-          <TabsTrigger value="2">İçecekler</TabsTrigger>
-          <TabsTrigger value="3">Tatlılar</TabsTrigger>
-        </TabsList>
-        <Button variant="default">Oluştur</Button>
+    <div className="flex w-full h-full p-2 gap-1">
+      <div className="w-[15vw] h-[calc(100vh-84px)] overflow-y-auto p-1 gap-1 flex flex-col scrollbar-none">
+        {data?.map((menu: MenuType) => (
+          <div  key={menu.MenuId} className="p-3 hover:cursor-pointer hover:bg-muted bg-primary/10 ">
+            <span className="text-sm">{menu.Name}</span> 
+          </div>
+        ))}
       </div>
-      <TabsContent value="1">
-        <DataTable columns={columns} data={data} />
-      </TabsContent>
-      <TabsContent value="2"> </TabsContent>
-      <TabsContent value="3"></TabsContent>
-    </Tabs>
+      <Card className="flex-1 ">
+      </Card>
+    </div>
+    // <Tabs defaultValue="job" className="container mx-auto">
+    //   <div className="flex flex-row justify-between pb-3 items-center">
+    //     <TabsList
+    //       className="
+    //     max-w-full 
+    //     overflow-x-auto 
+    //     whitespace-nowrap 
+    //     flex-nowrap 
+    //     scrollbar-hide
+    //   "
+    //     >
+    //       {data.map((menu: MenuType) => (
+    //         <TabsTrigger
+    //           key={menu.MenuId}
+    //           value={menu.MenuId.toString()}
+    //           className="flex-shrink-0"
+    //         >
+    //           {menu.Name}
+    //         </TabsTrigger>
+    //       ))}
+    //     </TabsList>
+
+    //     <Button variant="default">Oluştur</Button>
+    //   </div>
+
+    //   <TabsContent value="1">asdasd</TabsContent>
+    //   <TabsContent value="2"></TabsContent>
+    //   <TabsContent value="3"></TabsContent>
+    // </Tabs>
+
   );
 };
 

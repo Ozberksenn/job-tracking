@@ -22,17 +22,24 @@ import { ChevronDown } from "lucide-react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  loading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  loading
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  if(loading === true){
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="overflow-hidden rounded-md border p-2">
       <span className="text-lg">Products</span>

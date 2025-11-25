@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllMenu } from "./services";
-import { MenuType } from "./types";
+import { getAllMenu, getProductByMenuId } from "./services";
+import { MenuType, ProductType } from "./types";
 
 
 export const useAllMenu = () =>
@@ -8,4 +8,12 @@ export const useAllMenu = () =>
         queryKey: ['menu'],
         queryFn: getAllMenu,
         staleTime: 5 * 60 * 1000, // 5 minutes
+    });
+
+
+export const useProductByMenuId = (menuId:number | null) =>
+    useQuery<ProductType[]>({
+        queryKey: ['product',menuId],
+        queryFn:() => getProductByMenuId(menuId!),
+        enabled: !!menuId, // Disable automatic query on mount
     });

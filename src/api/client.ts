@@ -3,6 +3,7 @@ import axios from "axios";
 export const api = axios.create({
     baseURL: "http://localhost:8080",
     headers: { "Content-Type": "application/json" },
+    
     timeout: 10000,
 });
 
@@ -25,8 +26,15 @@ export const apiGet = async (url: string) => {
 }
 
 export const apiPost = async (url: string, parameters: any) => {
-    const response = await api.post(url, parameters);
-    return response.data;
+    try {
+        const response = await api.post(url,  parameters);
+        debugger;
+        return response.data;
+    } catch (error) {
+        debugger;
+        throw error;
+    }
+
 }
 
 

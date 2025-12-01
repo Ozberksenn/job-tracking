@@ -1,23 +1,21 @@
 "use client";
+
 import { User, BookA, FileStack, User2, ChevronUp } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarSeparator,
-} from "./ui/sidebar";
+} from "../../components/ui/sidebar";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -25,17 +23,24 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { menu, MenuType } from "../layout/menu";
+} from "../../components/ui/dropdown-menu";
+import { menu, MenuType } from "./menuConfig";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { selectMenu } from "@/features/main/mainSlice";
+import { useRouter } from "next/navigation";
 
 const AppSidebar = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter()
 
   const handleItem = (title: string) => {
     dispatch(selectMenu(title));
   };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    router.push('/login')
+  }
 
   return (
     <Sidebar collapsible="icon">
@@ -119,7 +124,7 @@ const AppSidebar = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem>Account</DropdownMenuItem>
                 <DropdownMenuItem>Setting</DropdownMenuItem>
-                <DropdownMenuItem>Sign out</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleSignOut} >Sign out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

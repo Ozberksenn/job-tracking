@@ -1,24 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import Navbar from "@/components/Navbar";
-import AppSidebar from "@/components/AppSidebar";
-import ReduxProvider from "@/components/providers/ReduxProvider";
-import QueryProvider from "@/components/providers/QueryProvider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import LoginLayout from "./login/layout";
-import Login from "./login/page";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+import { ThemeProvider } from "@/lib/providers/theme-provider";
+import QueryProvider from "@/lib/providers/QueryProvider";
+import ReduxProvider from "@/lib/providers/ReduxProvider";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
@@ -28,29 +13,17 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const x = 1;
   return (
-    <>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <QueryProvider>
-              {x === 1 ? <Login /> : <ReduxProvider>
-                <SidebarProvider defaultOpen={true}>
-                  <AppSidebar />
-                  <main className="w-full h-full h-screen flex flex-col">
-                    <Navbar />
-                    {children}
-                  </main>
-                </SidebarProvider>
-              </ReduxProvider>
-              }
-            </QueryProvider>
-          </ThemeProvider>
-        </body>
-      </html>
-    </>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <QueryProvider>
+            <ReduxProvider>
+              {children}
+            </ReduxProvider>
+          </QueryProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

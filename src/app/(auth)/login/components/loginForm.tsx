@@ -11,13 +11,15 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import useLoginUser from "@/api/auth/mutations";
+import useLoginUser from "@/lib/api/auth/mutations";
+import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const login = useLoginUser();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,8 +28,11 @@ export function LoginForm({
     const email = formData.get("email");
     const password = formData.get("password");
 
-    console.log(email, password);
-    await login.mutateAsync({ email: email as string, password: password as string });
+    const response = await login.mutateAsync({ email: email as string, password: password as string });
+    if (response) {
+      localStorage.setItem("token", response.token);
+      router.push('/stock')
+    }
   }
 
   return (

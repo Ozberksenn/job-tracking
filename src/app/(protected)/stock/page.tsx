@@ -2,8 +2,8 @@
 
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { useAllMenu, useProductByMenuId } from "@/api/stock/queries";
-import { MenuType, ProductType } from "@/api/stock/types";
+import { useAllMenu, useProductByMenuId } from "@/lib/api/stock/queries";
+import { MenuType, ProductType } from "@/lib/api/stock/types";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 

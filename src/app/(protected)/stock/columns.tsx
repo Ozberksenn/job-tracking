@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductType } from "@/api/stock/types";
+import { ProductType } from "@/lib/api/stock/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const columns: ColumnDef<ProductType>[] = [

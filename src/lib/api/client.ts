@@ -3,10 +3,25 @@ import axios from "axios";
 export const api = axios.create({
     baseURL: "http://localhost:8080",
     headers: { "Content-Type": "application/json" },
-    
     timeout: 10000,
 });
 
+// REQUEST INTERCEPTOR: Her isteğe token ekle
+api.interceptors.request.use(
+    (config) => {
+        // Token'ı localStorage'dan veya başka bir kaynaktan al
+        const token = localStorage.getItem("token");
+        if (token) {
+            config.headers["Authorization"] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// RESPONSE INTERCEPTOR: Hataları yakala
 api.interceptors.response.use(
     (res) => res,
     (err) => {
@@ -27,18 +42,20 @@ export const apiGet = async (url: string) => {
 
 export const apiPost = async (url: string, parameters: any) => {
     try {
-        const response = await api.post(url,  parameters);
-        debugger;
+        const response = await api.post(url, parameters);
         return response.data;
     } catch (error) {
-        debugger;
         throw error;
     }
 
 }
 
-
 export const apiPut = async (url: string, parameters: any) => {
-    const response = await api.put(url, parameters);
-    return response.data;
+    try {
+        const response = await api.put(url, parameters);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+
 }

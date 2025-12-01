@@ -13,15 +13,18 @@ import {
 import { Input } from "@/components/ui/input"
 import useLoginUser from "@/lib/api/auth/mutations";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const login = useLoginUser();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true)
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -33,6 +36,7 @@ export function LoginForm({
       localStorage.setItem("token", response.token);
       router.push('/stock')
     }
+    setIsLoading(false)
   }
 
   return (
@@ -70,7 +74,7 @@ export function LoginForm({
                 <Input id="password" type="password" name="password" required />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                {isLoading ? <Button disabled={true} type="button" variant="secondary">Login</Button> : <Button type="submit">Login</Button> } 
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Or continue with

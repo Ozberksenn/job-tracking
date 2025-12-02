@@ -23,12 +23,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   loading?: boolean;
+  title:string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  loading
+  loading,
+  title
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -42,7 +44,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="overflow-hidden rounded-md border p-2">
-      <span className="text-lg">Products</span>
+      <span className="text-lg">{title.toUpperCase()}</span>
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Filter emails..."

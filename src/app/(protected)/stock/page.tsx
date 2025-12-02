@@ -3,7 +3,7 @@
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { useAllMenu, useProductByMenuId } from "@/lib/api/stock/queries";
-import { MenuType, ProductType } from "@/lib/api/stock/types";
+import { MenuType } from "@/lib/api/stock/types";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 
@@ -27,7 +27,7 @@ const StockPage = () => {
         {queryMenu.data?.map((menu: MenuType) => (
           <div
             key={menu.MenuId}
-            className="p-3 hover:cursor-pointer hover:bg-muted bg-primary/10 "
+            className={`p-3 hover:cursor-pointer hover:bg-muted bg-primary/10  ${selectedMenu?.MenuId === menu.MenuId ? "border-2 border-solid border-white" : "border-2 border-solid"}`}
             onClick={() => handleMenuClick(menu)}
           >
             <span className="text-sm">{menu.Name}</span>
@@ -35,7 +35,7 @@ const StockPage = () => {
         ))}
       </div>
       <Card className="flex-1 border-none p-0 ">
-        <DataTable columns={columns} data={queryProduct.data ?? []} loading={queryProduct.isLoading} />
+        <DataTable columns={columns} data={queryProduct.data ?? []} loading={queryProduct.isLoading} title={selectedMenu?.Name ?? ''} />
       </Card>
     </div>
   );

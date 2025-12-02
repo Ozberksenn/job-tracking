@@ -34,7 +34,7 @@ const StockPage = () => {
           </div>
         ))}
       </div>
-      <Card className="flex-1 border-none p-0 ">
+      <Card className="flex-1 border-none p-2 ">
         <DataTable columns={columns} data={queryProduct.data ?? []} loading={queryProduct.isLoading} title={selectedMenu?.Name ?? ''} />
       </Card>
     </div>

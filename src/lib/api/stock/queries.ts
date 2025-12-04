@@ -15,5 +15,5 @@ export const useProductByMenuId = (menuId:number | null) =>
     useQuery<ProductType[]>({
         queryKey: ['product',menuId],
         queryFn:() => getProductByMenuId(menuId!),
-        enabled: !!menuId, // Disable automatic query on mount
+        enabled: !!menuId, 
     });

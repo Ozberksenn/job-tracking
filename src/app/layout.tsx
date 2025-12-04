@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import QueryProvider from "@/lib/providers/QueryProvider";
 import ReduxProvider from "@/lib/providers/ReduxProvider";
+import { Toaster } from "@/components/ui/sonner";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <QueryProvider>
             <ReduxProvider>
               {children}
+              <Toaster />
             </ReduxProvider>
           </QueryProvider>
         </ThemeProvider>

@@ -4,17 +4,17 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { MenuType } from "@/layout/Sidebar/menuConfig"
 import { useCreateProduct } from "@/lib/api/stock/mutations"
 import { ProductType } from "@/lib/api/stock/types"
 import { Pencil } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-
+import { useState } from "react"
+import { toast } from "sonner"
 
 export const ProductForm = ({ param }: { param: ProductType }) => {
-
+    const [open, setOpen] = useState(false);
     const query = useCreateProduct()
 
     const formSchema = z.object({
@@ -41,12 +41,17 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
     });
 
     const onSubmit = async (values: any) => {
-        console.log("SUBMITTED:", values);
-        await query.mutateAsync(values)
+        try {
+            await query.mutateAsync(values)
+            toast("Product created successfully")
+            setOpen(false)
+        } catch (err) {
+            toast("Something error ! ")
+        }
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Pencil size={16} className="cursor-pointer" />
             </DialogTrigger>
@@ -144,7 +149,7 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
                             )}
                         />
                         <div className="flex items-end justify-end gap-2">
-                            <Button variant="outline" >Cancel</Button>
+                            <Button onClick={() => setOpen(false)} variant="outline" >Cancel</Button>
                             <Button type="submit" >Save</Button>
                         </div>
                     </form>

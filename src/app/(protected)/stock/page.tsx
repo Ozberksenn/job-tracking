@@ -14,7 +14,6 @@ const StockPage = () => {
   const queryMenu = useAllMenu();
   const queryProduct = useProductByMenuId(selectedMenu?.MenuId ?? null);
 
-
   const handleMenuClick = (menu: MenuType) => {
     setSelectedMenu(menu);
   }

@@ -3,6 +3,9 @@
 import { ProductType } from "@/lib/api/stock/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Trash } from "lucide-react";
+import { ProductForm } from "./components/ProductForm";
+
+
 export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "Image",
@@ -25,12 +28,12 @@ export const columns: ColumnDef<ProductType>[] = [
     header: "Barcode",
   },
   {
-    id:"actions",
+    id: "actions",
     cell: ({ row }) => {
       return (
         <div className="flex gap-5 justify-end">
-          <Pencil size={16} style={{color:"white"}} className="cursor-pointer"/>
-          <Trash size={16} style={{color:"red"}}  className="cursor-pointer"/>
+          <ProductForm param={row.original} />
+          <Trash size={16} style={{ color: "red" }} className="cursor-pointer" />
         </div>
       )
     }

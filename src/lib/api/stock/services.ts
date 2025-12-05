@@ -1,6 +1,5 @@
-import { api, apiDelete, apiGet, apiPost, apiPut } from "../client";
+import { apiDelete, apiGet, apiPost, apiPut } from "../client";
 import { MenuType, ProductType } from "./types";
-
 
 export const getAllMenu = async (): Promise<MenuType[]> => {
     const res = await apiGet("/getMenu");
@@ -9,7 +8,6 @@ export const getAllMenu = async (): Promise<MenuType[]> => {
 
 export const getProductByMenuId = async (menuId: number): Promise<ProductType[]> => {
     const res = await apiGet(`/getProductByMenuId?MenuId=${menuId}`);
-    debugger;
     return res.data;
 };
 
@@ -19,13 +17,16 @@ export const postProduct = async (data: ProductType): Promise<MenuType[]> => {
 };
 
 export const updateProduct = async (data: ProductType): Promise<MenuType[]> => {
-    debugger;
     const res = await apiPut("/updateProduct", data);
     return res.data;
 };
 
-
 export const deleteProduct = async (id: number) => {
     const res = await apiDelete("/deleteProduct", { "ProductId": id });
+    return res.data;
+};
+
+export const createMenu = async (data:MenuType) => {
+    const res = await apiPost("/postMenu",data);
     return res.data;
 };

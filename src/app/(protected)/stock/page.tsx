@@ -6,8 +6,9 @@ import { useAllMenu, useProductByMenuId } from "@/lib/api/stock/queries";
 import { MenuType } from "@/lib/api/stock/types";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
-import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
-import { BadgeCheckIcon, ChevronRightIcon } from "lucide-react";
+import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
+import { BadgeCheckIcon } from "lucide-react";
+import { MenuForm } from "./components/MenuForm";
 
 
 const StockPage = () => {
@@ -25,16 +26,14 @@ const StockPage = () => {
   return (
     <div className="flex w-full h-full p-2 gap-1">
       <div className="w-[15vw] h-[calc(100vh-84px)] overflow-y-auto p-1 gap-1 flex flex-col scrollbar-none">
-        <Item variant="muted" size="sm" asChild>
-        <a href="#">
+        <MenuForm component={<Item className="cursor-pointer" variant="outline" size="sm" >
           <ItemMedia>
             <BadgeCheckIcon className="size-5" />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>added a new menu</ItemTitle>
+            <ItemTitle>Add a new menu</ItemTitle>
           </ItemContent>
-        </a>
-      </Item>
+        </Item>} />
         {queryMenu.data?.map((menu: MenuType) => (
           <div
             key={menu.MenuId}

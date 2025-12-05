@@ -4,6 +4,7 @@ import { ProductType } from "@/lib/api/stock/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Trash } from "lucide-react";
 import { ProductForm } from "./components/ProductForm";
+import { ProductDelete } from "./components/ProductDelete";
 
 
 export const columns: ColumnDef<ProductType>[] = [
@@ -33,7 +34,7 @@ export const columns: ColumnDef<ProductType>[] = [
       return (
         <div className="flex gap-5 justify-end">
           <ProductForm param={row.original} />
-          <Trash size={16} style={{ color: "red" }} className="cursor-pointer" />
+          <ProductDelete param={row.original} />
         </div>
       )
     }

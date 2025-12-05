@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "http://localhost:8000",
     headers: { "Content-Type": "application/json" },
     timeout: 10000,
 });
@@ -49,6 +49,16 @@ export const apiPost = async (url: string, parameters: any) => {
     }
 
 }
+export const apiDelete = async (url: string, parameters: any) => {
+    try {
+        const response = await api.delete(url, {
+            data: parameters   
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const apiPut = async (url: string, parameters: any) => {
     try {
@@ -57,5 +67,4 @@ export const apiPut = async (url: string, parameters: any) => {
     } catch (error) {
         throw error;
     }
-
 }

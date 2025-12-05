@@ -18,12 +18,13 @@ import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { ProductForm } from "./components/ProductForm";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   loading?: boolean;
-  title:string;
+  title: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -38,7 +39,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if(loading === true){
+  if (loading === true) {
     return <div>Loading...</div>;
   }
 
@@ -54,7 +55,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-         <DropdownMenu>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Filter List <ChevronDown />
@@ -80,6 +81,7 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        <ProductForm component={<Button variant="outline">New Product</Button>} />
       </div>
       <Table>
         <TableHeader>
@@ -91,9 +93,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 );
               })}

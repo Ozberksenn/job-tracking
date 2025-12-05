@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useCreateProduct } from "@/lib/api/stock/mutations"
+import { useCreateProduct, useUpdateProduct } from "@/lib/api/stock/mutations"
 import { ProductType } from "@/lib/api/stock/types"
 import { Pencil } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -13,11 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { toast } from "sonner"
 
-export const ProductForm = ({ param }: { param: ProductType }) => {
+export const ProductForm = ({ param, component }: { param?: ProductType, component?: any }) => {
     const [open, setOpen] = useState(false);
     const query = useCreateProduct()
+    const queryUpdate = useUpdateProduct()
 
     const formSchema = z.object({
+        ProductId:z.number(),
         ProductName: z.string(),
         MenuId: z.number(),
         ProductDescription: z.string(),
@@ -29,21 +31,19 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            ProductName: "",
-            MenuId: param.MenuId,
-            ProductDescription: "",
-            Price: 0,
-            Quantity: 0,
-            Barcode: "",
-            ShowStore: true,
-        }
+        defaultValues: param // initial value
     });
 
     const onSubmit = async (values: any) => {
+
         try {
-            await query.mutateAsync(values)
-            toast("Product created successfully")
+            if (param === undefined || param === null) {
+                await query.mutateAsync(values)
+                toast("Product created successfully")
+            } else {
+                await queryUpdate.mutateAsync(values)
+                toast("Product update successfully")
+            }
             setOpen(false)
         } catch (err) {
             toast("Something error ! ")
@@ -53,7 +53,7 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Pencil size={16} className="cursor-pointer" />
+                {component === undefined || component === null ? <Pencil size={16} className="cursor-pointer" /> : component}
             </DialogTrigger>
 
             <DialogContent className="sm:min-w-[70vh]">
@@ -66,7 +66,6 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-
                         <FormField
                             control={form.control}
                             name="ProductName"
@@ -80,7 +79,6 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="ProductDescription"
@@ -94,7 +92,6 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="Price"
@@ -108,7 +105,6 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="Quantity"
@@ -149,12 +145,11 @@ export const ProductForm = ({ param }: { param: ProductType }) => {
                             )}
                         />
                         <div className="flex items-end justify-end gap-2">
-                            <Button onClick={() => setOpen(false)} variant="outline" >Cancel</Button>
+                            <Button onClick={() => setOpen(false)} variant="outline" type="button">Cancel</Button>
                             <Button type="submit" >Save</Button>
                         </div>
                     </form>
                 </Form>
-
             </DialogContent>
         </Dialog>
     )

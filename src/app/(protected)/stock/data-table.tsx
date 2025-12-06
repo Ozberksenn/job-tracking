@@ -91,7 +91,7 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <ProductForm component={<Button variant="outline">New Product</Button>} />
+        <ProductForm  component={<Button variant="outline">New Product</Button>} />
       </div>
       <Table>
         <TableHeader>

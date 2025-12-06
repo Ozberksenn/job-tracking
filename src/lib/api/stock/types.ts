@@ -16,6 +16,6 @@ export type ProductType = {
     Price: number;
     Barcode: string;
     ShowStore?: boolean;
-    quantity:number;
+    Quantity:number;
 }
 

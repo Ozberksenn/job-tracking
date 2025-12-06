@@ -12,6 +12,7 @@ export const getProductByMenuId = async (menuId: number): Promise<ProductType[]>
 };
 
 export const postProduct = async (data: ProductType): Promise<MenuType[]> => {
+    debugger;
     const res = await apiPost("/createProducts", data);
     return res.data;
 };

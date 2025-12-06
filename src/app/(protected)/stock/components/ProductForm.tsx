@@ -12,26 +12,38 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { toast } from "sonner"
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux"
 
 export const ProductForm = ({ param, component }: { param?: ProductType, component?: any }) => {
     const [open, setOpen] = useState(false);
     const query = useCreateProduct()
     const queryUpdate = useUpdateProduct()
 
+    const selectedMenu = useAppSelector((state) => state.stock.selectedMenu)
+
     const formSchema = z.object({
-        ProductId:z.number(),
-        ProductName: z.string(),
+        ProductId: z.number().optional(),
+        ProductName: z.string().min(1, "Product name is required"),
         MenuId: z.number(),
-        ProductDescription: z.string(),
+        ProductDescription: z.string().optional(),
         Price: z.number(),
         Quantity: z.number(),
         Barcode: z.string(),
-        ShowStore: z.boolean()
-    })
+        ShowStore: z.boolean().optional(),
+    });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: param // initial value
+        defaultValues: {
+            ProductId: param?.ProductId ?? 0,
+            ProductName: param?.ProductName ?? "",
+            MenuId: param?.MenuId ?? selectedMenu?.MenuId,
+            ProductDescription: param?.ProductDescription ?? "",
+            Price: param?.Price ?? 0,
+            Quantity: param?.Quantity ?? 0,
+            Barcode: param?.Barcode ?? "",
+            ShowStore: param?.ShowStore ?? false,
+        }
     });
 
     const onSubmit = async (values: any) => {

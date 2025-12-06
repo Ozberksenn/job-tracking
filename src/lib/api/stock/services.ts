@@ -30,3 +30,13 @@ export const createMenu = async (data:MenuType) => {
     const res = await apiPost("/postMenu",data);
     return res.data;
 };
+
+export const updateMenu = async (data:MenuType) => {
+    const res = await apiPut("/updateMenu",data);
+    return res.data;
+};
+
+export const deleteMenu = async (id: number) => {
+    const res = await apiDelete("/deleteMenu", { "MenuId": id });
+    return res.data;
+};

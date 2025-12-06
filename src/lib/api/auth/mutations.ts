@@ -12,7 +12,6 @@ export default function useLoginUser() {
         mutationKey: ['loginUser'],
         onSuccess: (data) => {
             router.push("/stock");
-            debugger;
             console.log("User created:", data);
         },
         onError: (error) => {

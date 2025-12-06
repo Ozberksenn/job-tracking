@@ -11,30 +11,32 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { toast } from "sonner"
-import { useCreateMenu } from "@/lib/api/stock/mutations"
+import { useCreateMenu, useUpdateMenu } from "@/lib/api/stock/mutations"
+import { Switch } from "@/components/ui/switch"
 
 export const MenuForm = ({ param, component }: { param?: MenuType, component?: any }) => {
     const [open, setOpen] = useState(false);
     const createMenu = useCreateMenu()
-
+    const updateMenu = useUpdateMenu()
+    debugger;
     const formSchema = z.object({
-        MenuId: z.number().optional(),
+        MenuId: z.number(),
         Name: z.string(),
         Description: z.string().optional(),
         Image: z.string().optional(),
         ShowStore: z.boolean().optional(),
-        Sort: z.number().optional()
+        // Sort: z.number()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: param ?? {
-            MenuId: 0,
-            Name: "",
-            Description: "",
-            Image: "",
-            ShowStore: false,
-            Sort: 0
+        defaultValues: {
+            MenuId: param?.MenuId ?? 0,
+            Name: param?.Name ?? "",
+            Description: param?.Description ?? "",
+            Image: param?.Image ?? "",
+            ShowStore: param?.ShowStore ?? false,
+            // Sort: param?.Sort ?? 0,
         }
     });
 
@@ -45,8 +47,8 @@ export const MenuForm = ({ param, component }: { param?: MenuType, component?: a
                 await createMenu.mutateAsync(values)
                 toast("Menu created successfully")
             } else {
-                // await queryUpdate.mutateAsync(values)
-                // toast("Menu update successfully")
+                await updateMenu.mutateAsync(values)
+                toast("Menu update successfully")
             }
             setOpen(false)
         } catch (err) {
@@ -57,7 +59,7 @@ export const MenuForm = ({ param, component }: { param?: MenuType, component?: a
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                {component === undefined || component === null ? <Pencil size={16} className="cursor-pointer" /> : component}
+                {component ?? <Pencil size={16} className="cursor-pointer" />}
             </DialogTrigger>
 
             <DialogContent className="sm:min-w-[70vh]">
@@ -95,19 +97,20 @@ export const MenuForm = ({ param, component }: { param?: MenuType, component?: a
                                 </FormItem>
                             )}
                         />
-                        {/* <FormField
+                        <FormField
                             control={form.control}
                             name="ShowStore"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Show Store</FormLabel>
                                     <FormControl>
-                                        <Checkbox id="terms-2" checked={field.value} onCheckedChange={field.onChange} />
+                                        <Switch id="airplane-mode"  onCheckedChange={field.onChange} />
+                                        {/* <Checkbox id="terms-2" checked={field.value} onCheckedChange={field.onChange} /> */}
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        /> */}
+                        />
                         <div className="flex items-end justify-end gap-2">
                             <Button onClick={() => setOpen(false)} variant="outline" type="button">Cancel</Button>
                             <Button type="submit">Save</Button>

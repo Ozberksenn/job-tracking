@@ -1,4 +1,5 @@
 "use client";
+
 import {
   ColumnDef,
   flexRender,
@@ -17,21 +18,24 @@ import { Input } from "@/components/ui/input";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Ellipsis, EllipsisVertical, Pencil, Trash } from "lucide-react";
 import { ProductForm } from "./components/ProductForm";
+import { MenuForm } from "./components/MenuForm";
+import { MenuType } from "@/lib/api/stock/types";
+import { MenuDelete } from "./components/MenuDelete";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   loading?: boolean;
-  title: string;
+  menu: MenuType | null;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   loading,
-  title
+  menu
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -45,7 +49,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="overflow-hidden rounded-md border p-2">
-      <span className="text-lg">{title.toUpperCase()}</span>
+      {menu && <div className="flex items-center justify-between">
+        <div className="flex gap-2 items-center">
+          <MenuForm param={menu} component={<Pencil className="size-4 cursor-pointer" style={{ color: "gray" }} />} />
+          <span className="text-lg">{menu?.Name.toUpperCase()}</span>
+        </div>
+        <MenuDelete param={menu} />
+      </div>}
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Filter emails..."

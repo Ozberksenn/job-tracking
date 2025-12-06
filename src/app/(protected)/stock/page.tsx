@@ -9,20 +9,25 @@ import { useState } from "react";
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { BadgeCheckIcon } from "lucide-react";
 import { MenuForm } from "./components/MenuForm";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
+import { selectMenu } from "@/features/stock/stockSlice";
 
 
 const StockPage = () => {
-  const [selectedMenu, setSelectedMenu] = useState<MenuType | null>(null);
+  const selectedMenu = useAppSelector((state) => state.stock.selectedMenu);
+  const dispatch = useAppDispatch();
 
   const queryMenu = useAllMenu();
   const queryProduct = useProductByMenuId(selectedMenu?.MenuId ?? null);
 
   const handleMenuClick = (menu: MenuType) => {
-    setSelectedMenu(menu);
+    dispatch(selectMenu(menu));
   }
+
   if (queryMenu.isLoading) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className="flex w-full h-full p-2 gap-1">
       <div className="w-[15vw] h-[calc(100vh-84px)] overflow-y-auto p-1 gap-1 flex flex-col scrollbar-none">
@@ -45,7 +50,7 @@ const StockPage = () => {
         ))}
       </div>
       <Card className="flex-1 border-none p-2 ">
-        <DataTable columns={columns} data={queryProduct.data ?? []} loading={queryProduct.isLoading} title={selectedMenu?.Name ?? ''} />
+        <DataTable columns={columns} data={queryProduct.data ?? []} loading={queryProduct.isLoading} menu={selectedMenu ?? null} />
       </Card>
     </div>
   );

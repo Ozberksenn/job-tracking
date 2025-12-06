@@ -92,7 +92,7 @@ const AppSidebar = () => {
                     <SidebarMenuSubButton asChild>
                       <Link href="/#">
                         <FileStack />
-                        Departmanlar
+                        Menüler
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
@@ -100,7 +100,7 @@ const AppSidebar = () => {
                     <SidebarMenuSubButton asChild>
                       <Link href="/#">
                         <User />
-                        kullanıcılar
+                        Ürünler
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>

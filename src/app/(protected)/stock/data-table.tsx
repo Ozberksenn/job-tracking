@@ -19,10 +19,10 @@ import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Ellipsis, EllipsisVertical, Pencil, Trash } from "lucide-react";
-import { ProductForm } from "./components/ProductForm";
-import { MenuForm } from "./components/MenuForm";
+import { ProductForm } from "../../../features/stock/form/ProductForm";
+import { MenuForm } from "../../../features/stock/form/MenuForm";
 import { MenuType } from "@/lib/api/stock/types";
-import { MenuDelete } from "./components/MenuDelete";
+import { MenuDelete } from "../../../features/stock/components/MenuDelete";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { BadgeCheckIcon } from "lucide-react";
-import { MenuForm } from "./components/MenuForm";
+import { MenuForm } from "../../../features/stock/form/MenuForm";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { selectMenu } from "@/features/stock/stockSlice";
 

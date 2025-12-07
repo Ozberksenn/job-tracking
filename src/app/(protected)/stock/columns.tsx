@@ -3,9 +3,10 @@
 import { ProductType } from "@/lib/api/stock/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { BadgeTurkishLira, NotebookTabs, Pencil, Trash, TurkishLira } from "lucide-react";
-import { ProductForm } from "./components/ProductForm";
-import { ProductDelete } from "./components/ProductDelete";
+import { ProductForm } from "../../../features/stock/form/ProductForm";
+import { ProductDelete } from "../../../features/stock/components/ProductDelete";
 import { Button } from "@/components/ui/button";
+import { ProductVariant } from "../../../features/stock/components/ProductVariant";
 
 
 export const columns: ColumnDef<ProductType>[] = [
@@ -23,7 +24,7 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex gap-2 ">
-          <TurkishLira size={16} style={{color:"green"}} />
+          <TurkishLira size={16} style={{ color: "green" }} />
           {row.original.Price}
         </div>
       )
@@ -34,7 +35,7 @@ export const columns: ColumnDef<ProductType>[] = [
     header: "Quantity",
     cell: ({ row }) => {
       return (
-         <Button className="p-2" variant="secondary">{row.original.Quantity}</Button>
+        <Button className="p-2" variant="secondary">{row.original.Quantity}</Button>
       )
     }
   },
@@ -47,7 +48,7 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex gap-6 justify-end">
-          <NotebookTabs size={16} className="cursor-pointer" style={{color:"gray"}} />
+          <ProductVariant param={row.original} component={<NotebookTabs size={16} className="cursor-pointer" style={{ color: "gray" }} />} />
           <ProductForm param={row.original} />
           <ProductDelete param={row.original} />
         </div>

@@ -1,5 +1,5 @@
 import { apiDelete, apiGet, apiPost, apiPut } from "../client";
-import { MenuType, ProductType } from "./types";
+import { MenuType, ProductType, ProductVariantType } from "./types";
 
 export const getAllMenu = async (): Promise<MenuType[]> => {
     const res = await apiGet("/getMenu");
@@ -11,8 +11,13 @@ export const getProductByMenuId = async (menuId: number): Promise<ProductType[]>
     return res.data;
 };
 
-export const postProduct = async (data: ProductType): Promise<MenuType[]> => {
+export const getProductVariantById = async (productId: number): Promise<ProductVariantType[]> => {
     debugger;
+    const res = await apiGet(`/getProductVariantById?ProductId=${productId}`);
+    return res.data;
+};
+
+export const postProduct = async (data: ProductType): Promise<MenuType[]> => {
     const res = await apiPost("/createProducts", data);
     return res.data;
 };

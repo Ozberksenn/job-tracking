@@ -18,7 +18,6 @@ export const MenuForm = ({ param, component }: { param?: MenuType, component?: a
     const [open, setOpen] = useState(false);
     const createMenu = useCreateMenu()
     const updateMenu = useUpdateMenu()
-    debugger;
     const formSchema = z.object({
         MenuId: z.number(),
         Name: z.string(),
@@ -41,7 +40,6 @@ export const MenuForm = ({ param, component }: { param?: MenuType, component?: a
     });
 
     const onSubmit = async (values: any) => {
-        debugger;
         try {
             if (param === undefined || param === null) {
                 await createMenu.mutateAsync(values)

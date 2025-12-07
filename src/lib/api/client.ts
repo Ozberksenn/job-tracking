@@ -33,6 +33,7 @@ api.interceptors.response.use(
 export const apiGet = async (url: string) => {
     try {
         const response = await api.get(url);
+        debugger;
         return response.data;
     } catch (error) {
         throw error;

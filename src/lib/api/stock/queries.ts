@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllMenu, getProductByMenuId } from "./services";
-import { MenuType, ProductType } from "./types";
+import { getAllMenu, getProductByMenuId, getProductVariantById } from "./services";
+import { MenuType, ProductType, ProductVariantType } from "./types";
 
 
 export const useAllMenu = () =>
@@ -11,9 +11,17 @@ export const useAllMenu = () =>
     });
 
 
-export const useProductByMenuId = (menuId:number | null) =>
+export const useProductByMenuId = (menuId: number | null) =>
     useQuery<ProductType[]>({
-        queryKey: ['product',menuId],
-        queryFn:() => getProductByMenuId(menuId!),
-        enabled: !!menuId, 
+        queryKey: ['product', menuId],
+        queryFn: () => getProductByMenuId(menuId!),
+        enabled: !!menuId,
+    });
+
+
+export const useProductVariantById = (productId: number | null) =>
+    useQuery<ProductVariantType[]>({
+        queryKey: ['productVariant', productId],
+        queryFn: () => getProductVariantById(productId!),
+        enabled: !!productId,
     });

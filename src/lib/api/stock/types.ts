@@ -19,3 +19,12 @@ export type ProductType = {
     Quantity:number;
 }
 
+export type ProductVariantType = {
+    VariantId: number;
+    VariantName: string;
+    Price: number;
+    Barcode: string;
+    Quantity:number;
+}
+
+

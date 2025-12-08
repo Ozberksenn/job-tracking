@@ -3,30 +3,31 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { ProductVariantType } from "@/lib/api/stock/types"
+import { ProductType, ProductVariantType } from "@/lib/api/stock/types"
 import { Pencil } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
+import { useCretaProductVariant } from "@/lib/api/stock/mutations"
+import { toast } from "sonner"
 
-export const VariantForm = ({ param, component }: { param?: ProductVariantType, component?: any }) => {
+export const VariantForm = ({ product,param, component }: { product:ProductType,param?: ProductVariantType, component?: any }) => {
     const [open, setOpen] = useState(false);
-
+    const createProduct = useCretaProductVariant()
 
     const formSchema = z.object({
-        VariantId: z.number().optional(),
-        VariantName: z.string().min(1, "Product name is required"),
+        ProductId: z.number().optional(),
+        VariantName: z.string().min(1, "Variant name is required"),
         Price: z.number(),
         Quantity: z.number(),
         Barcode: z.string(),
-        ShowStore: z.boolean().optional(),
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            VariantId: param?.VariantId ?? 0,
+            ProductId: param?.ProductId ?? product.ProductId,
             VariantName: param?.VariantName ?? "",
             Price: param?.Price ?? 0,
             Quantity: param?.Quantity ?? 0,
@@ -35,18 +36,13 @@ export const VariantForm = ({ param, component }: { param?: ProductVariantType, 
     });
 
     const onSubmit = async (values: any) => {
-        // try {
-        //     if (param === undefined || param === null) {
-        //         await query.mutateAsync(values)
-        //         toast("Product created successfully")
-        //     } else {
-        //         await queryUpdate.mutateAsync(values)
-        //         toast("Product update successfully")
-        //     }
-        //     setOpen(false)
-        // } catch (err) {
-        //     toast("Something error ! ")
-        // }
+        debugger;
+        try {
+            await createProduct.mutateAsync(values)
+            setOpen(false)
+        } catch (err) {
+            toast("Something error ! ")
+        }
     };
 
     return (
@@ -70,7 +66,7 @@ export const VariantForm = ({ param, component }: { param?: ProductVariantType, 
                             name="VariantName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Product Name</FormLabel>
+                                    <FormLabel>Variant Name</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>

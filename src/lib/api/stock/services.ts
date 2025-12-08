@@ -12,7 +12,6 @@ export const getProductByMenuId = async (menuId: number): Promise<ProductType[]>
 };
 
 export const getProductVariantById = async (productId: number): Promise<ProductVariantType[]> => {
-    debugger;
     const res = await apiGet(`/getProductVariantById?ProductId=${productId}`);
     return res.data;
 };
@@ -44,5 +43,16 @@ export const updateMenu = async (data:MenuType) => {
 
 export const deleteMenu = async (id: number) => {
     const res = await apiDelete("/deleteMenu", { "MenuId": id });
+    return res.data;
+};
+
+export const createProductVariant = async (data:ProductVariantType) => {
+    const res = await apiPost("/postProductVariant",data);
+    return res.data;
+};
+
+export const deleteProductVariant = async (id: number) => {
+    debugger;
+    const res = await apiDelete("/deleteProductVariant", { "VariantId": id });
     return res.data;
 };

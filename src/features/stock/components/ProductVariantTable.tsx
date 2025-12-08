@@ -17,15 +17,19 @@ import { Input } from "@/components/ui/input";
 import { TurkishLira } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VariantForm } from "../form/VariantForm";
+import { ProductType } from "@/lib/api/stock/types";
+import { VariantDelete } from "./VariantDelete";
 
 interface DataTableProps<TData, TValue> {
     data: TData[];
     loading?: boolean;
+    product:ProductType
 }
 
 export function ProductVariantTable<TData, TValue>({
     data,
     loading,
+    product,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         columns,
@@ -48,7 +52,7 @@ export function ProductVariantTable<TData, TValue>({
                     }
                     className="max-w-sm"
                 />
-                <VariantForm component={<Button variant="secondary">New Variant</Button>} />
+                <VariantForm product={product} component={<Button variant="secondary">New Variant</Button>} />
             </div>
             {/* SCROLL BURADA */}
             <div className="flex-1 overflow-auto">
@@ -130,16 +134,14 @@ export const columns: ColumnDef<any>[] = [
         accessorKey: "Barcode",
         header: "Barcode",
     },
-    //   {
-    //     id: "actions",
-    //     cell: ({ row }) => {
-    //       return (
-    //         <div className="flex gap-6 justify-end">
-    //           <ProductVariant component={<NotebookTabs size={16} className="cursor-pointer" style={{ color: "gray" }} />} />
-    //           <ProductForm param={row.original} />
-    //           <ProductDelete param={row.original} />
-    //         </div>
-    //       )
-    //     }
-    //   },
+      {
+        id: "actions",
+        cell: ({ row }) => {
+          return (
+            <div className="flex gap-6 justify-end">
+              <VariantDelete param={row.original} />
+            </div>
+          )
+        }
+      },
 ];

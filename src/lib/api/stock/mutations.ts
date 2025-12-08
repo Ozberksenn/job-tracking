@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createMenu, deleteMenu, deleteProduct, postProduct, updateMenu, updateProduct } from "./services";
-import { MenuType, ProductType } from "./types";
+import { createMenu, createProductVariant, deleteMenu, deleteProduct, deleteProductVariant, postProduct, updateMenu, updateProduct } from "./services";
+import { MenuType, ProductType, ProductVariantType } from "./types";
 
 export function useCreateProduct() {
   const queryClient = useQueryClient()
@@ -42,6 +42,7 @@ export function useDeleteProduct() {
   });
 }
 
+// -------- Menu --------
 
 export function useCreateMenu() {
   const queryClient = useQueryClient()
@@ -75,6 +76,35 @@ export function useDeleteMenu() {
     mutationFn: (data: MenuType) => deleteMenu(data.MenuId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['menu'] })
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+}
+
+
+// -------- ProductVariant ---------
+
+export function useCretaProductVariant() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data: ProductVariantType) => createProductVariant(data),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['productVariant', variables.ProductId] })
+    },
+    onError: (error) => {
+      throw (error)
+    },
+  });
+}
+
+export function useDeleteProductVariant() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data: ProductVariantType) => deleteProductVariant(data.VariantId),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['productVariant', variables.ProductId] })
     },
     onError: (error) => {
       console.error(error);

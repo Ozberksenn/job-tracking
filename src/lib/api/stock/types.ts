@@ -21,6 +21,7 @@ export type ProductType = {
 
 export type ProductVariantType = {
     VariantId: number;
+    ProductId:number,
     VariantName: string;
     Price: number;
     Barcode: string;

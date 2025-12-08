@@ -10,7 +10,6 @@ import { ProductVariantTable } from "./ProductVariantTable"
 export const ProductVariant = ({ param, component }: { param?: ProductType, component?: any }) => {
     const [open, setOpen] = useState(false);
     const query = useProductVariantById(param?.ProductId ?? null)
-    const selectedMenu = useAppSelector((state) => state.stock.selectedMenu)
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -26,9 +25,8 @@ export const ProductVariant = ({ param, component }: { param?: ProductType, comp
                     </DialogDescription>
                 </DialogHeader>
                 <div className="w-full h-[70vh]">
-                    <ProductVariantTable data={query.data ?? []} loading={query.isLoading} />   
+                    <ProductVariantTable product={param!} data={query.data ?? []} loading={query.isLoading} />   
                 </div>
-
             </DialogContent>
         </Dialog>
     )

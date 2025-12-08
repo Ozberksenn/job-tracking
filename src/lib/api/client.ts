@@ -55,6 +55,7 @@ export const apiDelete = async (url: string, parameters: any) => {
         const response = await api.delete(url, {
             data: parameters   
         });
+        debugger;
         return response.data;
     } catch (error) {
         throw error;

@@ -24,7 +24,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
-import { menu, MenuType } from "./menuConfig";
+import { menu, SidebarType } from "./menuConfig";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { selectMenu } from "@/features/main/mainSlice";
 import { useRouter } from "next/navigation";
@@ -61,7 +61,7 @@ const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menu.map((item: MenuType) => (
+              {menu.map((item: SidebarType) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     onClick={() => handleItem(item.title)}

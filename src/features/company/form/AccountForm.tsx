@@ -1,3 +1,5 @@
+
+
 "use client"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -7,37 +9,30 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-export const SocialMediaForm = () => {
+export const AccountForm = () => {
     const formSchema = z.object({
-        Instagram: z.string().optional(),
-        Facebook: z.string().optional(),
-        Twitter: z.string().optional(),
-        Youtube: z.string().optional(),
+        Name: z.string(),
+        Mail: z.email(),
+        Password: z.string(),
+        PasswordAgain: z.string()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-           Instagram:"",
-           Facebook:"",
-           Twitter : "",
-           Youtube : ""
-        }
+
     });
-    
     const onSubmit = async (values: any) => {
 
     };
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
                     control={form.control}
-                    name="Instagram"
+                    name="Name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Company Name</FormLabel>
+                            <FormLabel>Name</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -47,10 +42,10 @@ export const SocialMediaForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="Facebook"
+                    name="Mail"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Logo</FormLabel>
+                            <FormLabel>Mail</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -60,10 +55,10 @@ export const SocialMediaForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="Twitter"
+                    name="Password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Phone</FormLabel>
+                            <FormLabel>Password</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -73,10 +68,10 @@ export const SocialMediaForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="Youtube"
+                    name="PasswordAgain"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel>Password Again</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>

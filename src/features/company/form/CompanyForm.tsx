@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 export const CompanyForm = () => {
-    const [open, setOpen] = useState(false);
     const formSchema = z.object({
         CompanyName: z.string(),
         Logo: z.string().optional(),
@@ -20,10 +19,8 @@ export const CompanyForm = () => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            CompanyName: "",
-        }
     });
+
     const onSubmit = async (values: any) => {
 
     };
@@ -110,7 +107,6 @@ export const CompanyForm = () => {
                 />
 
                 <div className="flex items-end justify-end gap-2">
-                    <Button onClick={() => setOpen(false)} variant="outline" type="button">Cancel</Button>
                     <Button type="submit">Save</Button>
                 </div>
             </form>

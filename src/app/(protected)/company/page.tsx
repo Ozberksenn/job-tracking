@@ -1,10 +1,16 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AccountForm } from "@/features/company/form/AccountForm"
 import { CompanyForm } from "@/features/company/form/CompanyForm"
 import { SocialMediaForm } from "@/features/company/form/SocialMediaForm"
 import { WorkingDaysForm } from "@/features/company/form/WorkingDaysForm"
+import { useCompany } from "@/lib/api/company/queries"
 
-const CalendarPage = () => {
+const CompanyPage = () => {
+    const query = useCompany()
+
     return (
         <div className="flex m-5 items-center justify-center">
             <Tabs defaultValue="account" className="flex w-[50%] items-center">
@@ -17,7 +23,7 @@ const CalendarPage = () => {
                 </TabsList>
                 <TabsContent value="account">
                     <div className="w-[100%] mt-5">
-                        <FormContainer title="Account Info" children={<div>Account Form Gelecek</div>} />
+                        <FormContainer title="Account Info" children={<AccountForm />} />
                     </div>
                 </TabsContent>
                 <TabsContent value="company">
@@ -42,15 +48,6 @@ const CalendarPage = () => {
                 </TabsContent>
             </Tabs>
         </div>
-
-        // <div className="grid grid-cols-1 h-full gap-4 m-4">
-        //     <div className="grid grid-cols-3 gap-4  max-h-[44vh]">
-        //         <FormContainer title="Company Information" children={<CompanyForm />} />
-        //         <FormContainer title="Company Information" children={<CompanyForm />} />
-        //         <FormContainer title="Company Information" children={<CompanyForm />} />
-        //     </div>
-        //     <div className="bg-green-100 h-[44vh]">asd</div>
-        // </div>
     )
 }
 
@@ -73,4 +70,4 @@ const FormContainer = ({ title, children }: FormContainerProp) => {
 }
 
 
-export default CalendarPage
+export default CompanyPage

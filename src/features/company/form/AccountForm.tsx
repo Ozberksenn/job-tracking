@@ -11,7 +11,6 @@ import { useState } from "react";
 
 export const AccountForm = () => {
     const formSchema = z.object({
-        Name: z.string(),
         Mail: z.email(),
         Password: z.string(),
         PasswordAgain: z.string()
@@ -21,13 +20,15 @@ export const AccountForm = () => {
         resolver: zodResolver(formSchema),
 
     });
+
     const onSubmit = async (values: any) => {
 
     };
+    
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
+                {/* <FormField
                     control={form.control}
                     name="Name"
                     render={({ field }) => (
@@ -39,7 +40,7 @@ export const AccountForm = () => {
                             <FormMessage />
                         </FormItem>
                     )}
-                />
+                /> */}
                 <FormField
                     control={form.control}
                     name="Mail"

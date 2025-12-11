@@ -6,22 +6,25 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { SocialMedia } from "@/lib/api/company/types";
 
-export const SocialMediaForm = () => {
+export const SocialMediaForm = ({data}:{data:SocialMedia | undefined}) => {
+
+    debugger;
     const formSchema = z.object({
-        Instagram: z.string().optional(),
-        Facebook: z.string().optional(),
-        Twitter: z.string().optional(),
-        Youtube: z.string().optional(),
+        instagram: z.string().optional(),
+        facebook: z.string().optional(),
+        twitter: z.string().optional(),
+        youtube: z.string().optional(),
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-           Instagram:"",
-           Facebook:"",
-           Twitter : "",
-           Youtube : ""
+           instagram: data?.instagram ?? "",
+           facebook:data?.facebook ?? "",
+           twitter : data?.x ?? "",
+           youtube : data?.youtube ?? ""
         }
     });
     
@@ -34,10 +37,10 @@ export const SocialMediaForm = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
                     control={form.control}
-                    name="Instagram"
+                    name="instagram"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Company Name</FormLabel>
+                            <FormLabel>Instagram</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -47,10 +50,10 @@ export const SocialMediaForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="Facebook"
+                    name="facebook"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Logo</FormLabel>
+                            <FormLabel>Facebook</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -60,10 +63,10 @@ export const SocialMediaForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="Twitter"
+                    name="twitter"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Phone</FormLabel>
+                            <FormLabel>Twitter</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -73,10 +76,10 @@ export const SocialMediaForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="Youtube"
+                    name="youtube"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel>Youtube</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>

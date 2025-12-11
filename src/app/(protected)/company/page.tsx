@@ -10,9 +10,6 @@ import { useCompany } from "@/lib/api/company/queries"
 
 const CompanyPage = () => {
     const query = useCompany()
-        console.log("isLoading", query.isLoading)
-    console.log("data", query.data)
-    console.log("error", query.error)
     return (
         <div className="flex m-5 items-center justify-center">
             <Tabs defaultValue="account" className="flex w-[50%] items-center">
@@ -35,12 +32,12 @@ const CompanyPage = () => {
                 </TabsContent>
                 <TabsContent value="socialMedia">
                     <div className="w-[100%] mt-5">
-                        <FormContainer title="Socail Media Info" children={<SocialMediaForm />} />
+                        <FormContainer title="Socail Media Info" children={<SocialMediaForm  data={query.data?.SocialMedia ?? undefined} />} />
                     </div>
                 </TabsContent>
                 <TabsContent value="working">
                     <div className="w-[100%] mt-5">
-                        <FormContainer title="Working Days Info" children={<WorkingDaysForm />} />
+                        <FormContainer title="Working Days Info" children={<WorkingDaysForm data={query.data?.WorkingHours ?? undefined} />} />
                     </div>
                 </TabsContent>
                 <TabsContent value="users">

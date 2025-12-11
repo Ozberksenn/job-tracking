@@ -32,7 +32,7 @@ export const CompanyForm = ({ isLoading, company }: { isLoading: boolean, compan
 
 
     const onSubmit = async (values: any) => {
-
+        
     };
 
     if (isLoading) return <span>...Loading</span>

@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { WorkingHours } from "@/lib/api/company/types";
 
-export const WorkingDaysForm = () => {
+export const WorkingDaysForm = ({ data }: { data: WorkingHours | undefined }) => {
     const formSchema = z.object({
         Monday: z.string().optional(),
         Tuesday: z.string().optional(),
@@ -21,13 +21,13 @@ export const WorkingDaysForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            Monday: "",
-            Tuesday: "",
-            Wednasday: "",
-            Thursday: "",
-            Friday: "",
-            Saturday: "",
-            Sunday: ""
+            Monday: data?.Monday ?? "",
+            Tuesday: data?.Tuesday ?? "",
+            Wednasday: data?.Wednasday ?? "",
+            Thursday: data?.Thursday ?? "",
+            Friday: data?.Friday ?? "",
+            Saturday: data?.Saturday ?? "",
+            Sunday: data?.Sunday ?? ""
         }
     });
 

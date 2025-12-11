@@ -10,7 +10,9 @@ import { useCompany } from "@/lib/api/company/queries"
 
 const CompanyPage = () => {
     const query = useCompany()
-
+        console.log("isLoading", query.isLoading)
+    console.log("data", query.data)
+    console.log("error", query.error)
     return (
         <div className="flex m-5 items-center justify-center">
             <Tabs defaultValue="account" className="flex w-[50%] items-center">
@@ -28,7 +30,7 @@ const CompanyPage = () => {
                 </TabsContent>
                 <TabsContent value="company">
                     <div className="w-[100%] mt-5">
-                        <FormContainer title="Company Info" children={<CompanyForm />} />
+                        <FormContainer title="Company Info" children={<CompanyForm isLoading={query.isLoading}   company={query.data}  />} />
                     </div>
                 </TabsContent>
                 <TabsContent value="socialMedia">

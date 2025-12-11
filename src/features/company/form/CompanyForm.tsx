@@ -1,13 +1,14 @@
 "use client"
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { CompanyType } from "@/lib/api/company/types";
 
-export const CompanyForm = () => {
+export const CompanyForm = ({ isLoading, company }: { isLoading: boolean, company: CompanyType | undefined }) => {
     const formSchema = z.object({
         CompanyName: z.string(),
         Logo: z.string().optional(),
@@ -19,11 +20,23 @@ export const CompanyForm = () => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            CompanyName: company?.CompanyName ?? "",
+            Logo: company?.Logo ?? "",
+            Phone: company?.Phone ?? "",
+            ContactMail: company?.ContactMail ?? "",
+            Address:company?.Address ?? "",
+            QrUrl: company?.QrUrl ?? ""
+        }
     });
+
 
     const onSubmit = async (values: any) => {
 
     };
+
+    if (isLoading) return <span>...Loading</span>
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

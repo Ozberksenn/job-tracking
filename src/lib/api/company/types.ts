@@ -4,10 +4,10 @@ export type CompanyType = {
     ContactMail?: string;
     Address?: string
     Logo?: string;
-    Phone: string;
-    QrUrl: string;
-    SocialMedia?: SocialMedia;
-    WorkingHours?:WorkingHours;
+    Phone?: string;
+    QrUrl?: string;
+    SocialMedia?: string | SocialMedia;
+    WorkingHours?:string | WorkingHours;
 
 }
 

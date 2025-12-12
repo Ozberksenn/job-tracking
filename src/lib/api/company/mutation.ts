@@ -1,19 +1,22 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CompanyType, SocialMedia } from "./types";
+import { updateCompanyInfo } from "./services";
 
-// export default function useUpdateCompany() {
-//     const router = useRouter();
-//     return useMutation({
-//         mutationFn: async (data: LoginType) => login(data),
-//         mutationKey: [''],
-//         onSuccess: (data) => {
-//             router.push("/stock");
-//             console.log("User created:", data);
-//         },
-//         onError: (error) => {
-//             console.error("Error:", error);
-//         },
-//     });
-// }
+export default function useUpdateCompany() {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (data: any) => updateCompanyInfo(data),
+        mutationKey: ['updateCompany'],
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['company'] })
+            console.log("update company:", data);
+        },
+        onError: (error) => {
+            console.error("Error:", error);
+            throw error;
+        },
+    });
+}

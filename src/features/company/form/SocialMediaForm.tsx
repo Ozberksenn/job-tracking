@@ -2,15 +2,16 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form";
-import { z } from "zod"
+import { json, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { SocialMedia } from "@/lib/api/company/types";
+import { CompanyType, SocialMedia } from "@/lib/api/company/types";
+import useUpdateCompany from "@/lib/api/company/mutation";
+import { toast } from "sonner";
 
-export const SocialMediaForm = ({data}:{data:SocialMedia | undefined}) => {
+export const SocialMediaForm = ({ company, data }: { company: CompanyType | undefined, data: SocialMedia | undefined }) => {
+    const update = useUpdateCompany()
 
-    debugger;
     const formSchema = z.object({
         instagram: z.string().optional(),
         facebook: z.string().optional(),
@@ -21,14 +22,29 @@ export const SocialMediaForm = ({data}:{data:SocialMedia | undefined}) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-           instagram: data?.instagram ?? "",
-           facebook:data?.facebook ?? "",
-           twitter : data?.x ?? "",
-           youtube : data?.youtube ?? ""
+            instagram: data?.instagram ?? "",
+            facebook: data?.facebook ?? "",
+            twitter: data?.x ?? "",
+            youtube: data?.youtube ?? ""
         }
     });
-    
+
     const onSubmit = async (values: any) => {
+        const jsonString = JSON.stringify(values);
+
+        const data: CompanyType = {
+            CompanyId: company?.CompanyId!,
+            CompanyName: company?.CompanyName ?? "",
+            Phone: company?.Phone ?? "",
+            Address: company?.Address ?? "",
+            ContactMail: company?.ContactMail ?? "",
+            Logo: company?.Logo ?? "",
+            QrUrl: company?.QrUrl ?? "",
+            WorkingHours: JSON.stringify(company?.WorkingHours) ?? "",
+            SocialMedia: jsonString,
+        }
+        await update.mutateAsync(data)
+        toast("Company Infos successfully update")
 
     };
 

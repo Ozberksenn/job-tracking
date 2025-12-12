@@ -7,32 +7,43 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
 import { CompanyType } from "@/lib/api/company/types";
+import useUpdateCompany from "@/lib/api/company/mutation";
+import { toast } from "sonner";
 
 export const CompanyForm = ({ isLoading, company }: { isLoading: boolean, company: CompanyType | undefined }) => {
+    const update = useUpdateCompany()
+
     const formSchema = z.object({
+        CompanyId: z.number(),
         CompanyName: z.string(),
         Logo: z.string().optional(),
         Phone: z.string().optional(),
         Address: z.string().optional(),
         ContactMail: z.string().optional(),
         QrUrl: z.string().optional(),
+        SocialMedia: z.string().optional(),
+        WorkingHours: z.string().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            CompanyId: company?.CompanyId,
             CompanyName: company?.CompanyName ?? "",
             Logo: company?.Logo ?? "",
             Phone: company?.Phone ?? "",
             ContactMail: company?.ContactMail ?? "",
-            Address:company?.Address ?? "",
-            QrUrl: company?.QrUrl ?? ""
+            Address: company?.Address ?? "",
+            SocialMedia: JSON.stringify(company?.SocialMedia) ?? "",
+            WorkingHours: JSON.stringify(company?.WorkingHours) ?? "",
+            QrUrl: company?.QrUrl ?? "",
         }
     });
 
 
-    const onSubmit = async (values: any) => {
-        
+    const onSubmit = (values: any) => {
+        update.mutateAsync(values)
+        toast("Company Infos successfully update")
     };
 
     if (isLoading) return <span>...Loading</span>
@@ -97,7 +108,7 @@ export const CompanyForm = ({ isLoading, company }: { isLoading: boolean, compan
                     name="ContactMail"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel>Contact Mail</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -118,7 +129,6 @@ export const CompanyForm = ({ isLoading, company }: { isLoading: boolean, compan
                         </FormItem>
                     )}
                 />
-
                 <div className="flex items-end justify-end gap-2">
                     <Button type="submit">Save</Button>
                 </div>

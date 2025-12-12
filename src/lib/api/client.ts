@@ -44,6 +44,7 @@ export const apiGet = async (url: string) => {
 export const apiPost = async (url: string, parameters: any) => {
     try {
         const response = await api.post(url, parameters);
+        debugger;
         return response.data;
     } catch (error) {
         throw error;
@@ -55,7 +56,6 @@ export const apiDelete = async (url: string, parameters: any) => {
         const response = await api.delete(url, {
             data: parameters   
         });
-        debugger;
         return response.data;
     } catch (error) {
         throw error;
@@ -65,6 +65,7 @@ export const apiDelete = async (url: string, parameters: any) => {
 export const apiPut = async (url: string, parameters: any) => {
     try {
         const response = await api.put(url, parameters);
+        debugger;
         return response.data;
     } catch (error) {
         throw error;

@@ -7,9 +7,15 @@ import { CompanyForm } from "@/features/company/form/CompanyForm"
 import { SocialMediaForm } from "@/features/company/form/SocialMediaForm"
 import { WorkingDaysForm } from "@/features/company/form/WorkingDaysForm"
 import { useCompany } from "@/lib/api/company/queries"
+import { SocialMedia, WorkingHours } from "@/lib/api/company/types"
 
 const CompanyPage = () => {
     const query = useCompany()
+
+
+    if(query.isLoading){
+        return <div>Loading...</div> 
+    }
     return (
         <div className="flex m-5 items-center justify-center">
             <Tabs defaultValue="account" className="flex w-[50%] items-center">
@@ -27,17 +33,17 @@ const CompanyPage = () => {
                 </TabsContent>
                 <TabsContent value="company">
                     <div className="w-[100%] mt-5">
-                        <FormContainer title="Company Info" children={<CompanyForm isLoading={query.isLoading}   company={query.data}  />} />
+                        <FormContainer title="Company Info" children={<CompanyForm isLoading={query.isLoading}  company={query.data}  />} />
                     </div>
                 </TabsContent>
                 <TabsContent value="socialMedia">
                     <div className="w-[100%] mt-5">
-                        <FormContainer title="Socail Media Info" children={<SocialMediaForm  data={query.data?.SocialMedia ?? undefined} />} />
+                        <FormContainer title="Socail Media Info" children={<SocialMediaForm company={query.data}  data={query.data?.SocialMedia as SocialMedia ?? undefined} />} />
                     </div>
                 </TabsContent>
                 <TabsContent value="working">
                     <div className="w-[100%] mt-5">
-                        <FormContainer title="Working Days Info" children={<WorkingDaysForm data={query.data?.WorkingHours ?? undefined} />} />
+                        <FormContainer title="Working Days Info" children={<WorkingDaysForm company={query.data} data={query.data?.WorkingHours as WorkingHours ?? undefined} />} />
                     </div>
                 </TabsContent>
                 <TabsContent value="users">

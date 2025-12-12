@@ -5,9 +5,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
-import { WorkingHours } from "@/lib/api/company/types";
+import { CompanyType, WorkingHours } from "@/lib/api/company/types";
+import useUpdateCompany from "@/lib/api/company/mutation";
+import { toast } from "sonner";
 
-export const WorkingDaysForm = ({ data }: { data: WorkingHours | undefined }) => {
+export const WorkingDaysForm = ({ company, data }: { company: CompanyType | undefined, data: WorkingHours | undefined }) => {
+    const update = useUpdateCompany()
+
     const formSchema = z.object({
         Monday: z.string().optional(),
         Tuesday: z.string().optional(),
@@ -32,7 +36,22 @@ export const WorkingDaysForm = ({ data }: { data: WorkingHours | undefined }) =>
     });
 
     const onSubmit = async (values: any) => {
+        const jsonString = JSON.stringify(values);
 
+        const data: CompanyType = {
+            CompanyId: company?.CompanyId!,
+            CompanyName: company?.CompanyName ?? "",
+            Phone: company?.Phone ?? "",
+            Address: company?.Address ?? "",
+            ContactMail: company?.ContactMail ?? "",
+            Logo: company?.Logo ?? "",
+            QrUrl: company?.QrUrl ?? "",
+            SocialMedia: JSON.stringify(company?.SocialMedia)  ?? "",
+            WorkingHours: jsonString,
+        }
+
+        await update.mutateAsync(data)
+        toast("Company Infos successfully update")
     };
 
     return (

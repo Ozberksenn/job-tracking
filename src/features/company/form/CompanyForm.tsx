@@ -40,7 +40,6 @@ export const CompanyForm = ({ isLoading, company }: { isLoading: boolean, compan
         }
     });
 
-
     const onSubmit = (values: any) => {
         update.mutateAsync(values)
         toast("Company Infos successfully update")

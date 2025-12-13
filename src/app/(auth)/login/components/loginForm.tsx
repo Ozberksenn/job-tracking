@@ -11,9 +11,10 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import useLoginUser from "@/lib/api/auth/mutations";
+import { useLoginUser } from "@/lib/api/auth/mutations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode"
 
 export function LoginForm({
   className,
@@ -34,6 +35,11 @@ export function LoginForm({
     const response = await login.mutateAsync({ email: email as string, password: password as string });
     if (response) {
       localStorage.setItem("token", response.token);
+      const decoded = jwtDecode<{ id: string; name: string }>(response.token);
+      if (decoded) {
+        localStorage.setItem("id", decoded.id);
+        localStorage.setItem("name", decoded.name);
+      }
       router.push('/stock')
     }
     setIsLoading(false)
@@ -74,7 +80,7 @@ export function LoginForm({
                 <Input id="password" type="password" name="password" required />
               </Field>
               <Field>
-                {isLoading ? <Button disabled={true} type="button" variant="secondary">Login</Button> : <Button type="submit">Login</Button> } 
+                {isLoading ? <Button disabled={true} type="button" variant="secondary">Login</Button> : <Button type="submit">Login</Button>}
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Or continue with

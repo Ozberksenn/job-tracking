@@ -42,6 +42,8 @@ const AppSidebar = () => {
     router.push('/login')
   }
 
+  const userName =  localStorage.getItem("name");
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -117,7 +119,7 @@ const AppSidebar = () => {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
                   <User2 />
-                  Özberk Şen
+                  {userName ?? ""}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

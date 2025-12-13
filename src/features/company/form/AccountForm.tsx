@@ -1,46 +1,41 @@
+"use client";
 
-
-"use client"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useUpdatePassword } from "@/lib/api/auth/mutations";
+import { toast } from "sonner";
+import { UpdatePasswordType } from "@/lib/api/auth/types";
 
 export const AccountForm = () => {
+    const mutation = useUpdatePassword()
     const formSchema = z.object({
         Mail: z.email(),
-        Password: z.string(),
-        PasswordAgain: z.string()
+        Password: z.string().min(6),
+        NewPassword: z.string().min(6)
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-
+        defaultValues: {
+            Mail: "",
+            Password: "",
+            NewPassword: ""
+        }
     });
 
-    const onSubmit = async (values: any) => {
-
+    const onSubmit = async (values: UpdatePasswordType) => {
+        await mutation.mutateAsync(values);
+        form.reset();
+        toast('Password succesfully update');
     };
-    
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {/* <FormField
-                    control={form.control}
-                    name="Name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Name</FormLabel>
-                            <FormControl>
-                                <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                /> */}
                 <FormField
                     control={form.control}
                     name="Mail"
@@ -61,7 +56,7 @@ export const AccountForm = () => {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -69,12 +64,12 @@ export const AccountForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="PasswordAgain"
+                    name="NewPassword"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Password Again</FormLabel>
+                            <FormLabel>NewPassword</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

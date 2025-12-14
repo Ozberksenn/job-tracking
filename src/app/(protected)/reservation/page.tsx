@@ -1,30 +1,20 @@
 "use client";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 
-const Notifications = () => {
-  const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ["users"],
-    queryFn: () =>
-      fetch(
-        "https://crudcrud.com/api/2d6cb12c5a0440c4a34c2743654140ac/users"
-      ).then((res) => res.json()),
-  });
+import { StatusBar } from "@/features/reservation/StatusBar";
+import { columns } from "./columns";
+import { DataTable } from "./data-table";
+import { useGetReservations } from "@/lib/api/reservation/queries";
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
-  if (isLoading || isFetching) return <p>Loading...</p>;
-  if (error) return <p>Error...</p>;
-
+const Reservation = () => {
+  const query = useGetReservations()
   return (
-    <div>
-      <p>{data[0].id}</p>
-      <p>{data[0].mail}</p>
-      <p>{data[0].password}</p>
+    <div className="flex h-full ml-4 mb-4 mr-4 gap-4">
+      <StatusBar />
+      <div className="flex-1">
+        <DataTable columns={columns} data={query.data ?? []} loading={false} />
+      </div>
     </div>
   );
 };
 
-export default Notifications;
+export default Reservation;

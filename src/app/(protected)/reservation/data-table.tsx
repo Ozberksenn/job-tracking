@@ -1,0 +1,128 @@
+"use client";
+
+import {
+    ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, } from "lucide-react";
+
+
+interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+    loading?: boolean;
+}
+
+export function DataTable<TData, TValue>({
+    columns,
+    data,
+    loading,
+}: DataTableProps<TData, TValue>) {
+    const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+    });
+
+    if (loading === true) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <div className="overflow-hidden rounded-md border p-2  max-h-[89vh] flex flex-col">
+
+            <div className="flex items-center py-4 gap-4">
+                {/* <Input
+                    placeholder="Filter Name..."
+                    value={(table.getColumn("ProductName")?.getFilterValue() as string) ?? ""}
+                    onChange={(event) =>
+                        table.getColumn("ProductName")?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm"
+                /> */}
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                            Filter List <ChevronDown />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                            .getAllColumns()
+                            .filter((column) => column.getCanHide())
+                            .map((column) => (
+                                <DropdownMenuCheckboxItem
+                                    key={column.id}
+                                    checked={column.getIsVisible()}
+                                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                                >
+                                    {column.id}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* <ProductForm component={<Button variant="outline">New Product</Button>} /> */}
+            </div>
+
+            {/* SCROLL BURADA */}
+            <div className="flex-1 overflow-auto">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead className={
+                                       "bg-gray-900"
+                                    } key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
+                                    </TableHead>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow key={row.id}>
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="text-center h-24">
+                                    No data.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+        </div>
+    );
+}
